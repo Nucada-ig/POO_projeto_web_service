@@ -3,23 +3,22 @@ import sqlite3
 
 prato_bp = Blueprint("prato", __name__)
 
-# Criar novo prato
+#prato novo
 @prato_bp.route("/prato/novo", methods=["POST"])
 def novo_prato():
-    ################ temp
-    dados = request.json
-    ################ criar função que coleta os dados do prato
-    conn = sqlite3.connect("pratos.db")
-    cursor = conn.cursor()
+    prato = Prato(
+        request.form['valor'],
+        request.form['tipo'],
+        request.form['descricao'],
+        request.form['id'],
+        request.form['status'],
+        request.form['nome']
+    )
 
-    cursor.execute("""
-        INSERT INTO pratos (valor, tipo, descricao, id, status, nome)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """, (dados["valor"], dados["tipo"], dados["descricao"], dados["id"], dados["status"], dados["nome"]))
+    dao_pratos.inserir(prato)
 
-    conn.commit()
-    conn.close()
-    return jsonify({"mensagem": "Prato criado"}), 201
+    return redirect(url_for("usuario.usuario_pratos"))
+
 
 
 # Ver prato por ID
@@ -48,25 +47,17 @@ def pratos_ativos():
 # Alterar status
 @prato_bp.route("/prato/status/<int:id>", methods=["POST"])
 def alterar_status(id):
-    ################ temp
-    status = request.json["status"]
-    ################ criar função que coleta o novo status do prato ou automatizar, testar o impacto de um contador
-    conn = sqlite3.connect("pratos.db")
-    cursor = conn.cursor()
-    cursor.execute("UPDATE pratos SET status = ? WHERE id = ?", (status, id))
+    status = request.form['status']
 
-    conn.commit()
-    conn.close()
-    return jsonify({"mensagem": "Status alterado"}), 200
+    dao_pratos.atualizar_status(id, status)
+
+    return redirect(url_for("usuario.usuario_pratos"))
+
 
 
 # Remover prato
 @prato_bp.route("/prato/remover/<int:id>", methods=["POST"])
 def remover_prato(id):
-    conn = sqlite3.connect("pratos.db")
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM pratos WHERE id = ?", (id,))
+    dao_pratos.remover(id)
+    return redirect(url_for("usuario.usuario_pratos"))
 
-    conn.commit()
-    conn.close()
-    return jsonify({"mensagem": "Prato removido"}), 200

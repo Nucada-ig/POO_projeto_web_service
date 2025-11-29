@@ -6,20 +6,17 @@ pedido_bp = Blueprint("pedido", __name__)
 # Adicionar pedido
 @pedido_bp.route("/pedido/novo", methods=["POST"])
 def novo_pedido():
-    ################ temp
-    dados = request.json
-    ################ criar função que coleta os dados do pedido
-    conn = sqlite3.connect("pedidos.db")
-    cursor = conn.cursor()
+    pedido = Pedido(
+        request.form['numero'],
+        request.form['preco'],
+        request.form['observacao'],
+        request.form['pagamento'],
+        request.form['status']
+    )
 
-    cursor.execute("""
-        INSERT INTO pedidos (numero, preco, observacao, pagamento, status)
-        VALUES (?, ?, ?, ?, ?)
-    """, (dados["numero"], dados["preco"], dados["observacao"], dados["pagamento"], dados["status"]))
+    dao_pedidos.inserir(pedido)
 
-    conn.commit()
-    conn.close()
-    return jsonify({"mensagem": "Pedido criado"}), 201
+    return redirect(url_for("usuario.usuario_pedidos"))
 
 
 # Visualizar informações de um pedido
@@ -51,14 +48,10 @@ def pedidos_ativos():
 # Atualizar status do pedido
 @pedido_bp.route("/pedido/status/<int:numero>", methods=["POST"])
 def atualizar_status(numero):
-    ################ temp
-    novo_status = request.json["status"]
-    ################ criar função que coleta o novo status do pedido, ou automatizar, testar o impacto de um contador
-    conn = sqlite3.connect("pedidos.db")
-    cursor = conn.cursor()
 
-    cursor.execute("UPDATE pedidos SET status = ? WHERE numero = ?", (novo_status, numero))
+    novo_status = request.form['status']
 
-    conn.commit()
-    conn.close()
-    return jsonify({"mensagem": "Status atualizado"}), 200
+    dao_pedidos.atualizar_status(numero, novo_status)
+
+    return redirect(url_for('usuario.usuario_pedidos'))
+
