@@ -1,4 +1,3 @@
-#ver questão do status se era assim mesmo
 
 """
 routes_entregador.py
@@ -6,7 +5,7 @@ Rotas relacionadas aos entregadores.
 Inclui: área do entregador, pedidos disponíveis e minhas entregas.
 """
 
-from flask import Blueprint, request, render_template, redirect, url_for
+from flask import Blueprint, request, render_template, redirect, url_for, jsonify
 from ..dao.EntregadorDAO import EntregadorDAO
 from ..dao.PedidoDAO import PedidoDAO
 

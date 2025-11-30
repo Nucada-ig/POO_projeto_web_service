@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Cardápio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: '#475569',
+                        'gray-50': '#f8fafc',
+                        'gray-100': '#f1f5f9',
+                        'gray-200': '#e2e8f0',
+                        'gray-300': '#cbd5e1',
+                        'gray-400': '#94a3b8',
+                        'gray-500': '#64748b',
+                        'gray-600': '#475569',
+                        'gray-700': '#334155',
+                        'gray-800': '#1e293b',
+                        'gray-900': '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+</head>
+<body class="font-inter bg-gray-50">
+
+<header id="header" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="px-4 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button id="back-button" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-left text-gray-600"></i>
+                </button>
+                <div>
+                    <h1 class="text-lg font-semibold text-gray-900">Cardápio</h1>
+                    <p class="text-xs text-gray-500">Gerencie seus pratos</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button id="search-button" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-search text-gray-600"></i>
+                </button>
+                <button id="filter-button" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-filter text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="search-bar" class="hidden bg-white border-b border-gray-200 px-4 py-3 sticky top-[73px] z-40">
+    <div class="relative">
+        <input 
+            type="text" 
+            placeholder="Buscar pratos..."
+            class="w-full px-4 py-3 pl-10 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+        >
+        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+    </div>
+</div>
+
+<!-- Main content com padding-bottom ajustado para o menu -->
+<main id="menu-content" class="px-4 py-6 pb-24">
+    <div id="category-filter" class="mb-6 overflow-x-auto -mx-4 px-4 pb-2">
+        <div class="flex space-x-2">
+            <button class="px-4 py-2 bg-accent text-white rounded-lg text-sm font-medium whitespace-nowrap">
+                Todos
+            </button>
+            <button class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">
+                Entradas
+            </button>
+            <button class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">
+                Pratos Principais
+            </button>
+            <button class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">
+                Sobremesas
+            </button>
+            <button class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">
+                Bebidas
+            </button>
+        </div>
+    </div>
+
+    <div id="add-dish-card" class="bg-white rounded-2xl border-2 border-dashed border-gray-300 p-6 mb-6 cursor-pointer hover:bg-gray-50 transition-colors">
+        <div class="text-center">
+            <div class="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mx-auto mb-3">
+                <i class="fa-solid fa-plus text-white text-lg"></i>
+            </div>
+            <h3 class="text-sm font-medium text-gray-900 mb-1">Adicionar Novo Prato</h3>
+            <p class="text-xs text-gray-500 mb-4">Clique para criar um novo item no cardápio</p>
+            <button class="bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium">
+                Criar Prato
+            </button>
+        </div>
+    </div>
+
+    <div id="dishes-grid" class="space-y-4">
+        <div id="dish-card-1" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex">
+                <div class="w-24 h-24 bg-gray-200 flex-shrink-0">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/9a1fd341d3-af132cfaf5f81228b211.png" alt="delicious grilled salmon with vegetables, restaurant food photography" />
+                </div>
+                <div class="flex-1 p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm font-semibold text-gray-900">Salmão Grelhado</h3>
+                        <div class="flex items-center space-x-1">
+                            <button class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                <i class="fa-solid fa-pen text-gray-600 text-xs"></i>
+                            </button>
+                            <button class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors">
+                                <i class="fa-solid fa-trash text-red-500 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-2 line-clamp-2">Salmão grelhado com legumes frescos e molho especial da casa</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-semibold text-accent">R$ 45,90</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-lg">Ativo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dish-card-2" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex">
+                <div class="w-24 h-24 bg-gray-200 flex-shrink-0">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/68fe87f88f-24593758fdd1e1257e5f.png" alt="classic margherita pizza with fresh basil, food photography" />
+                </div>
+                <div class="flex-1 p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm font-semibold text-gray-900">Pizza Margherita</h3>
+                        <div class="flex items-center space-x-1">
+                            <button class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                <i class="fa-solid fa-pen text-gray-600 text-xs"></i>
+                            </button>
+                            <button class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors">
+                                <i class="fa-solid fa-trash text-red-500 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-2 line-clamp-2">Pizza tradicional com molho de tomate, mozzarella e manjericão fresco</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-semibold text-accent">R$ 38,50</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-lg">Ativo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dish-card-3" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden opacity-60">
+            <div class="flex">
+                <div class="w-24 h-24 bg-gray-200 flex-shrink-0">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/091030a0b0-4816238ef1c9c3dae802.png" alt="chocolate cake slice with berries, dessert photography" />
+                </div>
+                <div class="flex-1 p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm font-semibold text-gray-900">Bolo de Chocolate</h3>
+                        <div class="flex items-center space-x-1">
+                            <button class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                <i class="fa-solid fa-pen text-gray-600 text-xs"></i>
+                            </button>
+                            <button class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors">
+                                <i class="fa-solid fa-trash text-red-500 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-2 line-clamp-2">Delicioso bolo de chocolate com cobertura cremosa e frutas vermelhas</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-semibold text-accent">R$ 18,90</span>
+                        <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-lg">Inativo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dish-card-4" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex">
+                <div class="w-24 h-24 bg-gray-200 flex-shrink-0">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/9bb03db0e3-ed8106e2a793c9fff629.png" alt="caesar salad with chicken and croutons, fresh salad photography" />
+                </div>
+                <div class="flex-1 p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm font-semibold text-gray-900">Salada Caesar</h3>
+                        <div class="flex items-center space-x-1">
+                            <button class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                <i class="fa-solid fa-pen text-gray-600 text-xs"></i>
+                            </button>
+                            <button class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors">
+                                <i class="fa-solid fa-trash text-red-500 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-2 line-clamp-2">Salada fresca com alface, frango grelhado, croutons e molho caesar</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-semibold text-accent">R$ 24,90</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-lg">Ativo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dish-card-5" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex">
+                <div class="w-24 h-24 bg-gray-200 flex-shrink-0">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a9c37cd2c2-2fd85b991bd3542eb4e7.png" alt="fresh orange juice glass with orange slices, beverage photography" />
+                </div>
+                <div class="flex-1 p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-sm font-semibold text-gray-900">Suco de Laranja</h3>
+                        <div class="flex items-center space-x-1">
+                            <button class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors">
+                                <i class="fa-solid fa-pen text-gray-600 text-xs"></i>
+                            </button>
+                            <button class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center hover:bg-red-100 transition-colors">
+                                <i class="fa-solid fa-trash text-red-500 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-2 line-clamp-2">Suco natural de laranja fresco, sem conservantes</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-semibold text-accent">R$ 8,50</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-lg">Ativo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Botão FAB Reposicionado (bottom-24) -->
+<div id="floating-add-button" class="fixed bottom-24 right-4 z-40">
+    <button class="w-14 h-14 bg-accent text-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
+        <i class="fa-solid fa-plus text-xl"></i>
+    </button>
+</div>
+
+<!-- Bottom Navigation - 5 Items, Cardápio Active -->
+<nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+    <div class="flex items-center justify-around py-2">
+        <button class="nav-item flex flex-col items-center py-2 px-4 text-gray-400 hover:text-accent transition-colors">
+            <i class="fa-solid fa-home text-lg mb-1"></i>
+            <span class="text-xs">Início</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4 text-gray-400 hover:text-accent transition-colors">
+            <i class="fa-solid fa-receipt text-lg mb-1"></i>
+            <span class="text-xs">Pedidos</span>
+        </button>
+        <!-- Item Ativo: Cardápio -->
+        <button class="nav-item active flex flex-col items-center py-2 px-4 text-accent">
+            <i class="fa-solid fa-utensils text-lg mb-1"></i>
+            <span class="text-xs font-medium">Cardápio</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4 text-gray-400 hover:text-accent transition-colors">
+            <i class="fa-solid fa-users text-lg mb-1"></i>
+            <span class="text-xs">Time</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4 text-gray-400 hover:text-accent transition-colors">
+            <i class="fa-solid fa-cog text-lg mb-1"></i>
+            <span class="text-xs">Config</span>
+        </button>
+    </div>
+</nav>
+
+<script>
+document.getElementById('search-button').addEventListener('click', function() {
+    const searchBar = document.getElementById('search-bar');
+    searchBar.classList.toggle('hidden');
+    if (!searchBar.classList.contains('hidden')) {
+        searchBar.querySelector('input').focus();
+    }
+});
+
+document.getElementById('back-button').addEventListener('click', function() {
+    window.history.back();
+});
+
+document.querySelectorAll('[id^="category-filter"] button').forEach(button => {
+    button.addEventListener('click', function() {
+        // Reseta todos os botões para o estilo padrão
+        const buttons = this.parentElement.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.className = 'px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50';
+        });
+        // Aplica estilo ativo ao botão clicado
+        this.className = 'px-4 py-2 bg-accent text-white rounded-lg text-sm font-medium whitespace-nowrap';
+    });
+});
+
+document.getElementById('floating-add-button').addEventListener('click', function() {
+    // Redireciona ou abre modal
+    console.log('Adicionar novo prato');
+});
+
+document.getElementById('add-dish-card').addEventListener('click', function() {
+    console.log('Criar novo prato');
+});
+
+document.querySelectorAll('.fa-pen').forEach(button => {
+    button.closest('button').addEventListener('click', function(e) {
+        e.stopPropagation();
+        console.log('Editar prato');
+    });
+});
+
+document.querySelectorAll('.fa-trash').forEach(button => {
+    button.closest('button').addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (confirm('Tem certeza que deseja excluir este prato?')) {
+            this.closest('[id^="dish-card"]').remove();
+        }
+    });
+});
+</script>
+
+</body>
+</html>

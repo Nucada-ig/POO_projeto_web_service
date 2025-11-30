@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Pedido</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: '#475569',
+                        'gray-50': '#f8fafc',
+                        'gray-100': '#f1f5f9',
+                        'gray-200': '#e2e8f0',
+                        'gray-300': '#cbd5e1',
+                        'gray-400': '#94a3b8',
+                        'gray-500': '#64748b',
+                        'gray-600': '#475569',
+                        'gray-700': '#334155',
+                        'gray-800': '#1e293b',
+                        'gray-900': '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+</head>
+<body class="font-inter bg-gray-50">
+
+<header id="order-details-header" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="flex items-center justify-between px-4 py-4">
+        <button id="back-button" class="p-2 -ml-2 rounded-xl hover:bg-gray-100 transition-colors">
+            <i class="fa-solid fa-arrow-left text-gray-600 text-lg"></i>
+        </button>
+        <div class="flex-1 text-center">
+            <h1 class="text-lg font-semibold text-gray-900">Pedido #1247</h1>
+            <p class="text-xs text-gray-500">Detalhes do pedido</p>
+        </div>
+        <button id="more-options" class="p-2 -mr-2 rounded-xl hover:bg-gray-100 transition-colors">
+            <i class="fa-solid fa-ellipsis-vertical text-gray-600 text-lg"></i>
+        </button>
+    </div>
+</header>
+
+<!-- Padding-bottom mantido em pb-48 para acomodar botões flutuantes e menu -->
+<main id="order-details-main" class="pb-48">
+    <div id="order-status-section" class="px-4 py-6 bg-white border-b border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-lg font-semibold text-gray-900">Em preparo</span>
+            </div>
+            <span class="text-sm text-gray-500">15:32</span>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-4">
+            <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600">Tempo estimado:</span>
+                <span class="font-medium text-gray-900">25-30 min</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="customer-info-section" class="px-4 py-6 bg-white border-b border-gray-100">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Informações do Cliente</h2>
+        <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+                <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-user text-white text-sm"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Maria Santos Silva</p>
+                    <p class="text-sm text-gray-500">Cliente desde 2023</p>
+                </div>
+            </div>
+            
+            <div class="bg-gray-50 rounded-2xl p-4 space-y-3">
+                <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-phone text-gray-400 text-sm w-4"></i>
+                    <span class="text-sm text-gray-700">(11) 99876-5432</span>
+                    <button class="ml-auto p-1 rounded-lg hover:bg-gray-200 transition-colors">
+                        <i class="fa-brands fa-whatsapp text-green-600 text-lg"></i>
+                    </button>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <i class="fa-solid fa-location-dot text-gray-400 text-sm w-4 mt-0.5"></i>
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-700">Rua das Flores, 123 - Apto 45</p>
+                        <p class="text-sm text-gray-500">Vila Madalena, São Paulo - SP</p>
+                        <p class="text-sm text-gray-500">CEP: 05435-020</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="order-items-section" class="px-4 py-6 bg-white border-b border-gray-100">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Itens do Pedido</h2>
+        <div class="space-y-4">
+            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-2xl">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-pizza-slice text-accent text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Pizza Margherita</p>
+                    <p class="text-sm text-gray-500">Tamanho grande</p>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium text-gray-900">2x</p>
+                    <p class="text-sm text-gray-500">R$ 89,80</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-2xl">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-bottle-water text-accent text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Coca-Cola 2L</p>
+                    <p class="text-sm text-gray-500">Gelada</p>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium text-gray-900">1x</p>
+                    <p class="text-sm text-gray-500">R$ 8,50</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-2xl">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-ice-cream text-accent text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Sorvete Chocolate</p>
+                    <p class="text-sm text-gray-500">500ml</p>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium text-gray-900">1x</p>
+                    <p class="text-sm text-gray-500">R$ 12,90</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-gray-50 rounded-2xl">
+            <div class="space-y-2">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Subtotal:</span>
+                    <span class="text-gray-900">R$ 111,20</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Taxa de entrega:</span>
+                    <span class="text-gray-900">R$ 5,90</span>
+                </div>
+                <div class="border-t border-gray-200 pt-2 mt-2">
+                    <div class="flex justify-between">
+                        <span class="font-semibold text-gray-900">Total:</span>
+                        <span class="font-semibold text-gray-900 text-lg">R$ 117,10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="order-timeline-section" class="px-4 py-6 bg-white">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">Histórico do Pedido</h2>
+        <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+                <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mt-1">
+                    <i class="fa-solid fa-check text-white text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Pedido confirmado</p>
+                    <p class="text-sm text-gray-500">Hoje às 15:25</p>
+                </div>
+            </div>
+            
+            <div class="flex items-start space-x-3">
+                <div class="w-6 h-6 bg-accent rounded-full flex items-center justify-center mt-1">
+                    <i class="fa-solid fa-clock text-white text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900">Em preparo</p>
+                    <p class="text-sm text-gray-500">Hoje às 15:32</p>
+                </div>
+            </div>
+
+            <div class="flex items-start space-x-3">
+                <div class="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center mt-1">
+                    <i class="fa-solid fa-motorcycle text-gray-500 text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-gray-500">Saiu para entrega</p>
+                    <p class="text-sm text-gray-400">Aguardando</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Action Buttons Section - Reposicionado para bottom-[60px] para ficar acima do menu -->
+<div id="action-buttons-section" class="fixed bottom-[60px] left-0 right-0 bg-white border-t border-gray-200 p-4 z-40 shadow-sm">
+    <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+            <button id="update-status-button" class="bg-accent text-white py-3 px-4 rounded-2xl font-medium hover:bg-gray-700 transition-colors flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-refresh text-sm"></i>
+                <span>Atualizar Status</span>
+            </button>
+            <button id="assign-driver-button" class="bg-gray-100 text-gray-700 py-3 px-4 rounded-2xl font-medium hover:bg-gray-200 transition-colors flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-motorcycle text-sm"></i>
+                <span>Atribuir Entregador</span>
+            </button>
+        </div>
+        <button id="cancel-order-button" class="w-full bg-red-50 text-red-600 py-3 px-4 rounded-2xl font-medium hover:bg-red-100 transition-colors flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-times text-sm"></i>
+            <span>Cancelar Pedido</span>
+        </button>
+    </div>
+</div>
+
+<!-- Bottom Navigation - 5 items -->
+<nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+    <div class="flex items-center justify-around py-2">
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-home text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400">Início</span>
+        </button>
+        <button class="nav-item active flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-receipt text-accent text-lg mb-1"></i>
+            <span class="text-xs text-accent font-medium">Pedidos</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-utensils text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400">Cardápio</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-users text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400">Time</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-cog text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400">Config</span>
+        </button>
+    </div>
+</nav>
+
+<script>
+document.getElementById('back-button').addEventListener('click', function() {
+    window.history.back();
+    console.log("Voltando...");
+});
+
+document.getElementById('update-status-button').addEventListener('click', function() {
+    const button = this;
+    const originalContent = button.innerHTML;
+    button.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-sm"></i><span>Atualizando...</span>';
+    button.disabled = true;
+    
+    setTimeout(() => {
+        button.innerHTML = originalContent;
+        button.disabled = false;
+    }, 2000);
+});
+
+document.getElementById('assign-driver-button').addEventListener('click', function() {
+    alert('Funcionalidade de atribuir entregador será implementada');
+});
+
+document.getElementById('cancel-order-button').addEventListener('click', function() {
+    if (confirm('Tem certeza que deseja cancelar este pedido?')) {
+        alert('Pedido cancelado com sucesso');
+    }
+});
+</script>
+
+</body>
+</html>

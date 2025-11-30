@@ -195,7 +195,7 @@ def cadastrar_entregador():
     Returns:
         Redirect para a rota 'public.aguardando_aprovacao'
     """
-    from ..model.Entregador import Entregador
+    from models.Entregador import Entregador
     
     # Captura todos os dados enviados pelo formulário
     nome = request.form['nome']

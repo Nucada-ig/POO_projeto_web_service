@@ -1,4 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect, url_for
+from models.Pedido import Pedido
+from dao.Pedido_dao import dao_Pedidos
 import sqlite3
 
 pedido_bp = Blueprint("pedido", __name__)
@@ -14,7 +16,7 @@ def novo_pedido():
         request.form['status']
     )
 
-    dao_pedidos.inserir(pedido)
+    dao_Pedidos.inserir(pedido)
 
     return redirect(url_for("usuario.usuario_pedidos"))
 
@@ -51,7 +53,7 @@ def atualizar_status(numero):
 
     novo_status = request.form['status']
 
-    dao_pedidos.atualizar_status(numero, novo_status)
+    dao_Pedidos.atualizar_status(numero, novo_status)
 
     return redirect(url_for('usuario.usuario_pedidos'))
 

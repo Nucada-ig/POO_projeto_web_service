@@ -1,4 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect, url_for
+from models.Prato import Prato
+from dao.Prato_dao import dao_Pratos
 import sqlite3
 
 prato_bp = Blueprint("prato", __name__)
@@ -15,7 +17,7 @@ def novo_prato():
         request.form['nome']
     )
 
-    dao_pratos.inserir(prato)
+    dao_Pratos.inserir(prato)
 
     return redirect(url_for("usuario.usuario_pratos"))
 
@@ -33,15 +35,15 @@ def ver_prato(id):
 
 
 # Listar pratos ativos
-@prato_bp.route("/pratos/ativos", methods=["GET"])
+#@prato_bp.route("/pratos/ativos", methods=["GET"])
 ########## tem que listar todos os pratos, não só os ativos para poderem ser editados depois
-def pratos_ativos():
-    conn = sqlite3.connect("pratos.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM pratos WHERE status = 'ativo'")
-    pratos = cursor.fetchall()
-    conn.close()
-    return jsonify(pratos), 200
+#def pratos_ativos():
+   # conn = sqlite3.connect("pratos.db")
+    #cursor = conn.cursor()
+    #cursor.execute("SELECT * FROM pratos WHERE status = 'ativo'")
+    #pratos = cursor.fetchall()
+    #conn.close()
+    #return jsonify(pratos), 200
 
 
 # Alterar status
@@ -49,7 +51,7 @@ def pratos_ativos():
 def alterar_status(id):
     status = request.form['status']
 
-    dao_pratos.atualizar_status(id, status)
+    dao_Pratos.atualizar_status(id, status)
 
     return redirect(url_for("usuario.usuario_pratos"))
 
@@ -58,6 +60,6 @@ def alterar_status(id):
 # Remover prato
 @prato_bp.route("/prato/remover/<int:id>", methods=["POST"])
 def remover_prato(id):
-    dao_pratos.remover(id)
+    dao_Pratos.remover(id)
     return redirect(url_for("usuario.usuario_pratos"))
 

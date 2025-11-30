@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: '#475569',
+                        'gray-50': '#f8fafc',
+                        'gray-100': '#f1f5f9',
+                        'gray-200': '#e2e8f0',
+                        'gray-300': '#cbd5e1',
+                        'gray-400': '#94a3b8',
+                        'gray-500': '#64748b',
+                        'gray-600': '#475569',
+                        'gray-700': '#334155',
+                        'gray-800': '#1e293b',
+                        'gray-900': '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+</head>
+<body class="font-inter bg-gray-50">
+
+<header id="header" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-cog text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-semibold text-gray-900">Configurações</h1>
+                    <p class="text-xs text-gray-500">Gerencie sua conta e preferências</p>
+                </div>
+            </div>
+            <!-- Ícones removidos conforme solicitado -->
+        </div>
+    </div>
+</header>
+
+<main id="config-main" class="pb-24">
+    <div id="config-content" class="px-4 py-6">
+        
+        <div id="restaurant-info-section" class="bg-white rounded-2xl p-4 border border-gray-200 mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Informações do Restaurante</h3>
+            <div class="space-y-4">
+                <div id="restaurant-name" class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-store text-blue-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Nome do Restaurante</p>
+                            <p class="text-xs text-gray-500">Pizza Express</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+                
+                <div id="restaurant-address" class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-map-marker-alt text-green-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Endereço</p>
+                            <p class="text-xs text-gray-500">Rua das Flores, 123</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+
+                <div id="restaurant-phone" class="flex items-center justify-between py-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-phone text-purple-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Telefone</p>
+                            <p class="text-xs text-gray-500">(11) 99999-9999</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Usuários Reformulada (Limpa) -->
+        <div id="team-management-section" class="bg-white rounded-2xl p-4 border border-gray-200 mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Gestão de Equipe</h3>
+            
+            <!-- Área de Vínculo Rápido -->
+            <div class="bg-gray-50 rounded-xl p-4 mb-4 border border-gray-100">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900">Código de Acesso</h4>
+                        <p class="text-xs text-gray-500 mt-1">Gere um código para vincular novos funcionários.</p>
+                    </div>
+                    <div class="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-key text-accent text-sm"></i>
+                    </div>
+                </div>
+                <button class="w-full bg-white border border-gray-200 text-accent font-medium text-sm py-2.5 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    Gerar Novo Código
+                </button>
+            </div>
+
+            <!-- Botão para Gestão Completa -->
+            <button class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group border border-transparent hover:border-gray-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                        <i class="fa-solid fa-users-gear text-blue-600"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-sm font-semibold text-gray-900">Gerenciar Equipe Completa</p>
+                        <p class="text-xs text-gray-500">Visualizar lista, editar e desvincular membros</p>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-400 group-hover:text-gray-600"></i>
+            </button>
+        </div>
+
+        <div id="delivery-settings-section" class="bg-white rounded-2xl p-4 border border-gray-200 mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Configurações de Entrega</h3>
+            <div class="space-y-4">
+                <div id="delivery-fee" class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-truck text-orange-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Taxa de Entrega</p>
+                            <p class="text-xs text-gray-500">R$ 5,00</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+
+                <div id="delivery-time" class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-clock text-yellow-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Tempo de Entrega</p>
+                            <p class="text-xs text-gray-500">30-45 minutos</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+
+                <div id="delivery-radius" class="flex items-center justify-between py-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-map text-red-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Raio de Entrega</p>
+                            <p class="text-xs text-gray-500">5 km</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="whatsapp-settings-section" class="bg-white rounded-2xl p-4 border border-gray-200 mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Configurações do WhatsApp</h3>
+            <div class="space-y-4">
+                <div id="whatsapp-number" class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-brands fa-whatsapp text-green-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Número do WhatsApp</p>
+                            <p class="text-xs text-gray-500">(11) 99999-9999</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+
+                <div id="auto-messages" class="flex items-center justify-between py-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-message text-blue-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Mensagens Automáticas</p>
+                            <p class="text-xs text-gray-500">Configurar respostas</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="system-settings-section" class="bg-white rounded-2xl p-4 border border-gray-200 mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Sistema</h3>
+            <div class="space-y-4">
+                <div id="notifications" class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-bell text-purple-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Notificações</p>
+                            <p class="text-xs text-gray-500">Gerenciar alertas</p>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+                    </label>
+                </div>
+
+                <div id="backup" class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-cloud text-gray-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Backup de Dados</p>
+                            <p class="text-xs text-gray-500">Último: hoje às 08:00</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+
+                <div id="help" class="flex items-center justify-between py-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-question-circle text-indigo-600 text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">Ajuda e Suporte</p>
+                            <p class="text-xs text-gray-500">Central de ajuda</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="logout-section" class="bg-white rounded-2xl p-4 border border-gray-200">
+            <button class="w-full flex items-center justify-center space-x-3 py-3 text-red-600">
+                <i class="fa-solid fa-sign-out-alt"></i>
+                <span class="text-sm font-medium">Sair da Conta</span>
+            </button>
+        </div>
+    </div>
+</main>
+
+<nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+    <div class="flex items-center justify-around py-2">
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-home text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400 font-medium">Início</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-receipt text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400">Pedidos</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-utensils text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400">Cardápio</span>
+        </button>
+        <button class="nav-item flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-users text-gray-400 text-lg mb-1"></i>
+            <span class="text-xs text-gray-400">Time</span>
+        </button>
+        <button class="nav-item active flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-cog text-accent text-lg mb-1"></i>
+            <span class="text-xs text-accent">Config</span>
+        </button>
+    </div>
+</nav>
+
+</body>
+</html>

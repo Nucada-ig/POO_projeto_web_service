@@ -5,7 +5,7 @@ Inclui: formulário de cadastro e processamento do cadastro.
 """
 
 from flask import Blueprint, request, render_template, redirect, url_for
-from ..model.Usuario import Usuario
+from models.Usuario import Usuario
 from ..dao.UsuarioDAO import UsuarioDAO
 
 # Cria o blueprint para rotas de usuário
