@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Manda-ai</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -42,35 +42,38 @@
             <div class="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <i class="fa-solid fa-utensils text-white text-2xl"></i>
             </div>
-            <h1 class="text-2xl font-semibold text-gray-900 mb-2">Delivery Manager</h1>
+            <h1 class="text-2xl font-semibold text-gray-900 mb-2">Manda-ai</h1>
             <p class="text-gray-500 text-sm">Sistema de gestão para restaurantes</p>
         </div>
     </div>
 
     <div id="login-container" class="flex-1 px-6">
         <div class="max-w-sm mx-auto">
+            
+
             <div id="login-form-card" class="bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
                 <div class="mb-8">
                     <h2 class="text-xl font-semibold text-gray-900 mb-2">Fazer login</h2>
                     <p class="text-gray-500 text-sm">Entre com suas credenciais para acessar o sistema</p>
                 </div>
 
-                <form id="login-form" class="space-y-6">
-                    <div id="email-field" class="space-y-2">
-                        <label for="email" class="block text-sm font-medium text-gray-700">
-                            E-mail ou usuário
+                <form id="login-form" action="{{ url_for('public.autenticar') }}" method="POST" class="space-y-6">
+                    
+                    <div id="username-field" class="space-y-2">
+                        <label for="username" class="block text-sm font-medium text-gray-700">
+                            Nome de Usuário (Username)
                         </label>
                         <div class="relative">
                             <input 
-                                type="email" 
-                                id="email" 
-                                name="email"
+                                type="text" 
+                                id="username" 
+                                name="username"
                                 class="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
-                                placeholder="Digite seu e-mail"
+                                placeholder="Digite seu username"
                                 required
                             >
                             <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                                <i class="fa-regular fa-envelope text-gray-400 text-sm"></i>
+                                <i class="fa-regular fa-user text-gray-400 text-sm"></i>
                             </div>
                         </div>
                     </div>
@@ -88,25 +91,35 @@
                                 placeholder="Digite sua senha"
                                 required
                             >
-                            <button type="button" class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                                <i class="fa-regular fa-eye text-gray-400 text-sm"></i>
+                            <button type="button" class="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer" onclick="togglePassword()">
+                                <i id="eye-icon" class="fa-regular fa-eye text-gray-400 text-sm"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div id="remember-forgot" class="flex items-center justify-between">
-                        <label class="flex items-center">
-                            <input type="checkbox" class="w-4 h-4 text-accent bg-gray-50 border-gray-300 rounded focus:ring-accent focus:ring-2">
-                            <span class="ml-2 text-sm text-gray-600">Lembrar de mim</span>
+                    <div id="tipo-field" class="space-y-2">
+                        <label for="tipo" class="block text-sm font-medium text-gray-700">
+                            Entrar como:
                         </label>
-                        <a href="#" class="text-sm text-accent hover:text-gray-700 transition-colors">
-                            Esqueci a senha
-                        </a>
+                        <div class="relative">
+                            <select 
+                                name="tipo" 
+                                id="tipo"
+                                class="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all duration-200 text-gray-900 appearance-none"
+                            >
+                                <option value="atendente" selected>Atendente</option>
+                                <option value="entregador">Entregador</option>
+                                <option value="gerente">Gerente</option>
+                                <option value="restaurante">Restaurante</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
+                            </div>
+                        </div>
                     </div>
 
                     <button 
                         type="submit" 
-                        id="login-button"
                         class="w-full bg-accent text-white py-3.5 px-4 rounded-2xl font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 transition-all duration-200"
                     >
                         Entrar
@@ -119,101 +132,53 @@
                             <div class="w-full border-t border-gray-200"></div>
                         </div>
                         <div class="relative flex justify-center text-sm">
-                            <span class="px-4 bg-white text-gray-500">ou cadastre-se</span>
+                            <span class="px-4 bg-white text-gray-500">Não tem conta? Cadastre-se como</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Seção de Cadastro com Duas Opções -->
                 <div id="create-account-section" class="text-center">
-                    <p class="text-sm text-gray-600 mb-4">
-                        Escolha o tipo de conta:
-                    </p>
                     <div class="flex gap-3">
-                        <button 
-                            type="button" 
-                            id="create-user-btn"
-                            class="flex-1 flex items-center justify-center bg-gray-50 text-gray-700 py-3 px-4 rounded-2xl font-medium border border-gray-200 hover:bg-gray-100 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-200 text-sm"
+                        <a 
+                            href="{{ url_for('usuario.cadastro_usuario') }}"
+                            class="flex-1 flex items-center justify-center bg-gray-50 text-gray-700 py-3 px-4 rounded-2xl font-medium border border-gray-200 hover:bg-gray-100 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-200 text-sm no-underline"
                         >
                             <i class="fa-regular fa-user mr-2 text-accent"></i>
                             Usuário
-                        </button>
-                        <button 
-                            type="button" 
-                            id="create-restaurant-btn"
-                            class="flex-1 flex items-center justify-center bg-gray-50 text-gray-700 py-3 px-4 rounded-2xl font-medium border border-gray-200 hover:bg-gray-100 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-200 text-sm"
+                        </a>
+                        
+                        <a 
+                            href="{{ url_for('restaurante.cadastro_restaurante') }}"
+                            class="flex-1 flex items-center justify-center bg-gray-50 text-gray-700 py-3 px-4 rounded-2xl font-medium border border-gray-200 hover:bg-gray-100 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-200 text-sm no-underline"
                         >
                             <i class="fa-solid fa-store mr-2 text-accent"></i>
                             Restaurante
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <div id="support-section" class="mt-8 text-center">
-                <p class="text-xs text-gray-400 mb-4">
-                    Precisa de ajuda? Entre em contato conosco
-                </p>
-                <div class="flex justify-center space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-accent transition-colors">
-                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-accent transition-colors">
-                        <i class="fa-regular fa-envelope text-lg"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-accent transition-colors">
-                        <i class="fa-solid fa-phone text-lg"></i>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 
-    <footer id="login-footer" class="pb-8 px-6">
-        <div class="max-w-sm mx-auto text-center">
-            <p class="text-xs text-gray-400">
-                © 2024 Delivery Manager. Todos os direitos reservados.
-            </p>
-        </div>
-    </footer>
 </main>
 
 <script>
-document.getElementById('login-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const button = document.getElementById('login-button');
-    button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Entrando...';
-    button.disabled = true;
-    
-    setTimeout(() => {
-        button.innerHTML = 'Entrar';
-        button.disabled = false;
-    }, 2000);
-});
-
-document.querySelector('input[type="password"]').nextElementSibling.addEventListener('click', function() {
-    const passwordInput = document.getElementById('password');
-    const icon = this.querySelector('i');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        passwordInput.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+    // Função simples para mostrar/esconder senha
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const icon = document.getElementById('eye-icon');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
     }
-});
-
-// Apenas para simular a interação
-document.getElementById('create-user-btn').addEventListener('click', function() {
-    alert('Ir para cadastro de Usuário');
-});
-
-document.getElementById('create-restaurant-btn').addEventListener('click', function() {
-    alert('Ir para cadastro de Restaurante');
-});
 </script>
 
 </body>

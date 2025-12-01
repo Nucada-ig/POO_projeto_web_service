@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Usuário</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+</head>
+<body class="font-inter bg-gray-50 min-h-screen flex items-center justify-center">
+
+<div class="max-w-md w-full p-8 space-y-8 bg-white shadow-xl rounded-3xl border border-gray-200">
+    <div class="text-center">
+        <h2 class="text-2xl font-bold text-gray-900">
+            Cadastre-se
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+            Escolha seu tipo de conta para começar
+        </p>
+    </div>
+    
+    <form class="mt-8 space-y-6" action="{{ url_for('usuario.cadastrar_usuario') }}" method="POST">
+        
+        <div>
+            <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo de Cadastro</label>
+            <select id="tipo" name="tipo" required
+                class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent transition-all">
+                
+                <option value="atendente" selected>Atendente</option>
+                <option value="gerente">Gerente</option>
+                <option value="entregador">Entregador</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="nome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+            <input id="nome" name="nome" type="text" required
+                class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="Seu nome">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                <input id="cpf" name="cpf" type="text" required
+                    class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="000.000.000-00">
+            </div>
+            <div>
+                <label for="telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+                <input id="telefone" name="telefone" type="tel" required
+                    class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="(00) 90000-0000">
+            </div>
+        </div>
+        
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required
+                class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="email@exemplo.com">
+        </div>
+        
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">Username (Login)</label>
+            <input id="username" name="username" type="text" required
+                class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="Nome de usuário único">
+        </div>
+        
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" required
+                class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="Mínimo de 6 caracteres">
+        </div>
+
+        <button type="submit"
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 transition-colors">
+            Cadastrar
+        </button>
+    </form>
+
+    <div class="text-center mt-6">
+        <a href="{{ url_for('public.login') }}" class="text-sm text-gray-600 hover:text-gray-800">
+            Já tem conta? Fazer Login
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

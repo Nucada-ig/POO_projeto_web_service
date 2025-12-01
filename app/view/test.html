@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - {{ usuario[1] }}</title> <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 'inter': ['Inter', 'sans-serif'] },
+                    colors: {
+                        accent: '#475569',
+                        'gray-50': '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+</head>
+<body class="font-inter bg-gray-50">
+
+<header id="header" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-accent rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-utensils text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-semibold text-gray-900">Dashboard</h1>
+                    <p class="text-xs text-gray-500">Olá, {{ usuario[1] }} ({{ usuario[6] }})</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+                    <i class="fa-regular fa-bell text-gray-600"></i>
+                </button>
+                <button class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+                    <i class="fa-regular fa-user text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main id="dashboard-main" class="pb-24">
+    <div id="stats-overview" class="px-4 py-6">
+        
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-white rounded-2xl p-4 border border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-receipt text-blue-600 text-sm"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">{{ stats.total }}</h3>
+                <p class="text-xs text-gray-500">Total de pedidos</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 border border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-check-circle text-green-600 text-sm"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">{{ stats.entregues }}</h3>
+                <p class="text-xs text-gray-500">Entregues</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 border border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-truck text-orange-600 text-sm"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">{{ stats.em_entrega }}</h3>
+                <p class="text-xs text-gray-500">Em entrega</p>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 border border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-clock text-yellow-600 text-sm"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">{{ stats.pendentes }}</h3>
+                <p class="text-xs text-gray-500">Pendentes</p>
+            </div>
+        </div>
+
+        <div id="delivery-status-chart" class="bg-white rounded-2xl p-4 border border-gray-200 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Status das Entregas</h3>
+            
+            {% if stats.total > 0 %}
+                <div id="statusChart" class="h-48"></div>
+            {% else %}
+                <div class="h-48 flex items-center justify-center text-gray-400 text-sm">
+                    Nenhum dado para exibir no gráfico.
+                </div>
+            {% endif %}
+        </div>
+
+        <div id="recent-orders-section" class="bg-white rounded-2xl p-4 border border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Pedidos Recentes</h3>
+                <button class="text-accent text-sm font-medium">Ver todos</button>
+            </div>
+            
+            <div id="recent-orders-list" class="space-y-3">
+                {% if recentes|length == 0 %}
+                    <p class="text-gray-500 text-center py-4 text-sm">Nenhum pedido encontrado.</p>
+                {% else %}
+                    {% for pedido in recentes %}
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                {% if pedido.status == 'entregue' %}
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <i class="fa-solid fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                {% elif pedido.status == 'em entrega' %}
+                                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                        <i class="fa-solid fa-truck text-orange-600 text-sm"></i>
+                                    </div>
+                                {% else %}
+                                    <div class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center">
+                                        <i class="fa-solid fa-clock text-gray-600 text-sm"></i>
+                                    </div>
+                                {% endif %}
+
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">#{{ pedido.id }}</p>
+                                    <p class="text-xs text-gray-500">{{ pedido.cliente_nome }} - {{ pedido.data }}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-gray-900">R$ {{ "%.2f"|format(pedido.preco) }}</p>
+                                
+                                {% if pedido.status == 'entregue' %}
+                                    <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full capitalize">{{ pedido.status }}</span>
+                                {% elif pedido.status == 'em entrega' %}
+                                    <span class="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full capitalize">{{ pedido.status }}</span>
+                                {% elif pedido.status == 'pendente' %}
+                                    <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full capitalize">{{ pedido.status }}</span>
+                                {% else %}
+                                    <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full capitalize">{{ pedido.status }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+    <div class="flex items-center justify-around py-2">
+        <button class="nav-item active flex flex-col items-center py-2 px-4">
+            <i class="fa-solid fa-home text-accent text-lg mb-1"></i>
+            <span class="text-xs text-accent font-medium">Início</span>
+        </button>
+        </div>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Recupera os dados injetados pelo Python
+    // O 'safe' é necessário para o Jinja não escapar as aspas do JSON
+    const chartData = {{ chart_data | safe }};
+
+    // Só renderiza se houver dados (o HTML já trata isso com {% if %}, mas é bom garantir no JS)
+    if (chartData && chartData.some(item => item.y > 0)) {
+        Highcharts.chart('statusChart', {
+            chart: {
+                type: 'pie',
+                backgroundColor: 'transparent',
+                height: 200
+            },
+            title: { text: null },
+            credits: { enabled: false },
+            plotOptions: {
+                pie: {
+                    innerSize: '60%',
+                    dataLabels: { enabled: false },
+                    showInLegend: true
+                }
+            },
+            legend: {
+                align: 'center',
+                verticalAlign: 'bottom',
+                layout: 'horizontal',
+                itemStyle: { fontSize: '12px', fontFamily: 'Inter, sans-serif' }
+            },
+            colors: ['#10b981', '#f59e0b', '#ef4444', '#6b7280'],
+            series: [{
+                name: 'Pedidos',
+                data: chartData
+            }]
+        });
+    }
+});
+</script>
+
+</body>
+</html>

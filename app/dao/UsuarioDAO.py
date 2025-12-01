@@ -19,7 +19,7 @@ class UsuarioDAO:
                 nome TEXT NOT NULL,
                 email TEXT NOT NULL UNIQUE,
                 telefone TEXT,
-                usuario TEXT NOT NULL UNIQUE,
+                username TEXT NOT NULL UNIQUE,
                 senha TEXT NOT NULL,
                 tipo TEXT NOT NULL
             );
@@ -31,9 +31,9 @@ class UsuarioDAO:
         conn = self._conectar()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO usuarios (nome, email, telefone, usuario, senha, tipo)
+            INSERT INTO usuarios (nome, email, telefone, username, senha, tipo)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (usuario.nome, usuario.email, usuario.telefone, usuario.usuario, usuario.senha, usuario.tipo))
+        """, (usuario.nome, usuario.email, usuario.telefone, usuario.username, usuario.senha, usuario.tipo))
         conn.commit()
         conn.close()
 
@@ -44,14 +44,21 @@ class UsuarioDAO:
         conn.commit()
         conn.close()
 
-    def procurar_um(self, id_usuario):
+    def buscar_por_username(self, usuario):
+        conn = self._conectar()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM usuarios WHERE username=?", (usuario,))
+        dado = cursor.fetchone()
+        conn.close()
+        return dado
+
+    def buscar_por_id(self, id_usuario):
         conn = self._conectar()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM usuarios WHERE id=?", (id_usuario,))
         dado = cursor.fetchone()
         conn.close()
-        return dado
-
+        return dado 
     def procurar_todos(self):
         conn = self._conectar()
         cursor = conn.cursor()

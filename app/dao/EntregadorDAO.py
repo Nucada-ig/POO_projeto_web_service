@@ -43,7 +43,17 @@ class EntregadorDAO:
         conn.commit()
         conn.close()
 
-    def procurar_um(self, id_entregador):
+    def procurar_por_username(self, username):
+        conn = self._conectar()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT * FROM entregadores WHERE username = ?
+        """, (username,))
+        dado = cursor.fetchone()
+        conn.close()
+        return dado
+
+    def procurar_por_id(self, id_entregador):
         conn = self._conectar()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM entregadores WHERE id=?", (id_entregador,))

@@ -1,6 +1,5 @@
-from app.models.prato import Prato
-from app.models.cliente import Cliente
-from app.models.endereco import Endereco
+from Prato import Prato
+from Endereco import Endereco
 class Pedido:
     def __init__(self, numero, preco, observacao_p, forma_de_pagamento, status):
         self.__numero = numero
@@ -63,16 +62,6 @@ class Pedido:
          self._forma_de_pagamento = forma
       else:
         print("Forma de pagamento inválida")
-    #associação x cliente
-    @property
-    def cliente(self):
-      return self._cliente
-    @cliente.setter
-    def cliente(self, valor):
-      if isinstance(valor, Cliente):
-        self._cliente = valor
-      else:
-        print("O valor atribuído a cliente não é um objeto Cliente válido.")
     #associação x endereço
     @property
     def endereco(self):

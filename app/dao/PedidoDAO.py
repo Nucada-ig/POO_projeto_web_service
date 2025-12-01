@@ -56,10 +56,10 @@ class PedidoDAO:
         conn.close()
         return dado
 
-    def procurar_todos(self):
+    def procurar_todos(self, id_restaurante):
         conn = self._conectar()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM pedidos")
+        cursor.execute("SELECT * FROM pedidos WHERE restaurante_id=?", (id_restaurante,))
         dados = cursor.fetchall()
         conn.close()
         return dados

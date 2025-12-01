@@ -51,6 +51,14 @@ class RestauranteDAO:
         dado = cursor.fetchone()
         conn.close()
         return dado
+    
+    def procurar_por_usuario(self, username):
+        conn = self._conectar()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM restaurantes WHERE username=?", (username,))
+        dados = cursor.fetchall()
+        conn.close()
+        return dados
 
     def procurar_todos(self):
         conn = self._conectar()

@@ -5,18 +5,21 @@ Inclui: formulário de cadastro e processamento do cadastro.
 """
 
 from flask import Blueprint, request, render_template, redirect, url_for
-from models.Usuario import Usuario
+from app.models.Usuario import Usuario_class as Usuario
+from app.models.Entregador import Entregador
 from .dao.UsuarioDAO import UsuarioDAO
+from .dao.EntregadorDAO import EntregadorDAO
 
 # Cria o blueprint para rotas de usuário
 usuario_bp = Blueprint('usuario', __name__)
 
 # Instancia o DAO para acesso ao banco de dados de usuários
 usuario_dao = UsuarioDAO()
+entregador_dao = EntregadorDAO()
 
 
 # ==================== ROTA: FORMULÁRIO DE CADASTRO ====================
-@usuario_bp.route("/cadastro", methods=['GET'])
+@usuario_bp.route("/cadastro_usuario", methods=['GET'])
 def cadastro_usuario():
     """
     Rota para exibir o formulário de cadastro de usuário.
@@ -37,7 +40,7 @@ def cadastro_usuario():
 
 
 # ==================== ROTA: PROCESSAR CADASTRO ====================
-@usuario_bp.route("/cadastrar", methods=['POST'])
+@usuario_bp.route("/cadastrar_usuario", methods=['POST'])
 def cadastrar_usuario():
     """
     Rota para processar o cadastro do usuário (POST).
@@ -57,25 +60,37 @@ def cadastrar_usuario():
     cpf = request.form['cpf']
     email = request.form['email']
     telefone = request.form['telefone']
-    endereco = request.form['endereco']
     username = request.form['username']
     password = request.form['password']
+    tipo = request.form['tipo'] 
     
     # Cria o objeto Usuario com os dados recebidos
     # Este objeto deve seguir a estrutura definida na classe Usuario do model
-    usuario = Usuario(
-        nome=nome,
-        cpf=cpf,
-        email=email,
-        telefone=telefone,
-        endereco=endereco,
-        username=username,
-        password=password
-    )
-    
+    if tipo == 'entregador':
+        entregador = Entregador(
+            nome=nome,
+            cpf=cpf,
+            email=email,
+            telefone=telefone,
+            username=username,
+            password=password,
+            status='inativo'  # Status inicial - entregador não está disponível ainda
+        )
+        entregador_dao.inserir(entregador)
+    else:
+        usuario = Usuario(
+            nome=nome,
+            cpf=cpf,
+            email=email,
+            telefone=telefone,
+            username=username,
+            senha=password,
+            tipo= tipo
+        )
+        usuario_dao.inserir(usuario)
     # Insere o usuário no banco de dados
     # O DAO se encarrega de abrir conexão, executar INSERT e fechar conexão
-    usuario_dao.inserir(usuario)
+    
     
     # Redireciona para a página de aguardando aprovação
     # 'public.aguardando_aprovacao' refere-se ao blueprint 'public' e função 'aguardando_aprovacao'

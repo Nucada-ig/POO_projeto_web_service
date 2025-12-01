@@ -1,9 +1,11 @@
-class usuario:
-    def __init__(self, nome, email, senha, CPF, tipo):
+class Usuario_class:
+    def __init__(self, nome, cpf, email, telefone, username, senha, tipo):
         self.__nome = nome
+        self.__cpf = cpf
         self.__email = email
+        self.__telefone = telefone
+        self.__username = username
         self.__senha = senha
-        self.__CPF = CPF
         self.__tipo = tipo
 
     @property
@@ -28,28 +30,36 @@ class usuario:
         self.__senha = senha
 
     @property
-    def CPF(self):
-        return self.__CPF
-    @CPF.setter
-    def CPF(self, CPF):
-        self.__CPF = CPF
+    def cpf(self):
+        return self.__cpf
+    @cpf.setter
+    def cpf(self, cpf):
+        self.__cpf = cpf
 
     @property
+    def telefone(self):
+        return self.__telefone
+    @telefone.setter
+    def telefone(self, telefone):
+        self.__telefone = telefone
+
+    @property
+    def endereco(self):
+        return self.__endereco
+    @endereco.setter
+    def endereco(self, endereco):
+        self.__endereco = endereco
+
+    @property
+    def username(self):
+        return self.__username
+    @username.setter
+    def username(self, username):
+        self.__username = username
+    
+    @property
     def tipo(self):
-        a = self.__tipo
-        if a == 0 :
-            return 'Usuário com cargo de entregador(0)'
-        elif a == 1:
-            return 'Usuário com cargo de atendente(1)'
-        elif a == 2:
-            return 'Usuário com cargo de gerente(2)'
-        elif a == 3:
-            return 'Usuário com cargo de dono(3)'
-        else:
-            return "Tipo de usuário inválido"
+        return self.__tipo
     @tipo.setter
     def tipo(self, tipo):
-        if tipo in [0, 1, 2, 3]:
-            self.__tipo = tipo
-        else:
-            raise ValueError("O valor do tipo deve ser 0, 1, 2 ou 3.")
+        self.__tipo = tipo

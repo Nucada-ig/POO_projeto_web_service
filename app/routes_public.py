@@ -20,38 +20,8 @@ restaurante_dao = RestauranteDAO()
 usuario_dao = UsuarioDAO()
 entregador_dao = EntregadorDAO()
 
-
-# ==================== ROTA: PÁGINA INICIAL ====================
-@public_bp.route("/", methods=['GET'])
-def home():
-    """
-    Rota para a página inicial (landing page).
-    Exibe opções para fazer login ou se cadastrar.
-    
-    Returns:
-        Renderiza o template 'index.html' com botões para login e cadastro
-    """
-    return render_template('index.html')
-
-
-# ==================== ROTA: ESCOLHER TIPO DE CADASTRO ====================
-@public_bp.route("/escolher-cadastro", methods=['GET'])
-def escolher_cadastro():
-    """
-    Rota para a página de escolha do tipo de cadastro.
-    Usuário decide se quer se cadastrar como:
-    - Restaurante
-    - Usuário
-    - Entregador
-    
-    Returns:
-        Renderiza o template 'escolher_cadastro.html' com três opções
-    """
-    return render_template('escolher_cadastro.html')
-
-
 # ==================== ROTA: FORMULÁRIO DE LOGIN ====================
-@public_bp.route("/login", methods=['GET'])
+@public_bp.route("/", methods=['GET'])
 def login():
     """
     Rota para exibir o formulário de login.
@@ -86,39 +56,12 @@ def autenticar():
     # Captura os dados enviados pelo formulário
     username = request.form['username']
     password = request.form['password']
-    tipo = request.form['tipo']  # 'restaurante', 'usuario' ou 'entregador'
+    tipo = request.form['tipo']  # 'restaurante', 'atendente', 'gerente' ou 'entregador'
     
     # Verifica qual tipo de login está sendo feito
-    if tipo == 'restaurante':
-        # Busca restaurante no banco de dados
-        restaurante = restaurante_dao.buscar_por_username(username)
-        
-        # Verifica se o restaurante existe e se a senha está correta
-        if restaurante and restaurante.password == password:
-            # Autenticação bem-sucedida - redireciona para área do restaurante
-            return redirect(url_for('restaurante.area_restaurante', username=username))
-        else:
-            # Credenciais inválidas - volta ao login com mensagem de erro
-            return render_template('login.html', 
-                                 msg="Restaurante ou senha inválidos",
-                                 tipo=tipo)
+
     
-    elif tipo == 'usuario':
-        # Busca usuário no banco de dados
-        usuario = usuario_dao.buscar_por_username(username)
-        
-        # Verifica se o usuário existe e se a senha está correta
-        if usuario and usuario.password == password:
-            # Autenticação bem-sucedida - redireciona para área do usuário
-            # Passa o username como parâmetro na URL
-            return redirect(url_for('usuario.area_usuario', username=username))
-        else:
-            # Credenciais inválidas - volta ao login com mensagem de erro
-            return render_template('login.html', 
-                                 msg="Usuário ou senha inválidos",
-                                 tipo=tipo)
-    
-    elif tipo == 'entregador':
+    if tipo == 'entregador':
         # Busca entregador no banco de dados
         entregador = entregador_dao.buscar_por_username(username)
         
@@ -131,9 +74,20 @@ def autenticar():
             return render_template('login.html', 
                                  msg="Entregador ou senha inválidos",
                                  tipo=tipo)
-    
-    # Caso o tipo não seja reconhecido (não deveria acontecer)
-    return render_template('login.html', msg="Tipo de login inválido")
+    else:
+        # Busca usuário no banco de dados
+        usuario = usuario_dao.buscar_por_username(username)
+        
+        # Verifica se o usuário existe e se a senha está correta
+        if usuario and usuario == password:
+            # Autenticação bem-sucedida - redireciona para área do usuário
+            # Passa o username como parâmetro na URL
+            return redirect(url_for('usuario.area_usuario', username=username))
+        else:
+            # Credenciais inválidas - volta ao login com mensagem de erro
+            return render_template('login.html', 
+                                 msg="Usuário ou senha inválidos",
+                                 tipo=tipo)
 
 
 # ==================== ROTA: AGUARDANDO APROVAÇÃO ====================
@@ -205,10 +159,6 @@ def cadastrar_entregador():
     username = request.form['username']
     password = request.form['password']
     
-    # Campos específicos do entregador
-    veiculo = request.form['veiculo']  # 'carro', 'moto' ou 'bicicleta'
-    placa = request.form.get('placa', '')  # Opcional, pode não ter (bicicleta)
-    cnh = request.form.get('cnh', '')  # CNH, obrigatório para carro/moto
     
     # Cria o objeto Entregador com os dados recebidos
     # Status inicial sempre é 'inativo' - entregador ativa quando quiser trabalhar
@@ -219,9 +169,6 @@ def cadastrar_entregador():
         telefone=telefone,
         username=username,
         password=password,
-        veiculo=veiculo,
-        placa=placa,
-        cnh=cnh,
         status='inativo'  # Status inicial - entregador não está disponível ainda
     )
     
