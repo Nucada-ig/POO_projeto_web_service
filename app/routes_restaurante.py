@@ -38,7 +38,7 @@ def cadastrar_restaurante():
     1. Recebe dados do formulário (incluindo dados do responsável).
     2. Cria e Insere o objeto Usuario (Responsável do Restaurante, tipo='restaurante').
     3. Cria e Insere o objeto Restaurante.
-    4. Redireciona para página de "aguardando aprovação".
+   
 
     Returns:
         Redirect para a rota 'public.aguardando_aprovacao'

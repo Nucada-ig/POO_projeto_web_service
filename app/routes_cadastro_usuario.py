@@ -51,7 +51,7 @@ def cadastrar_usuario():
     1. Recebe todos os dados do formulário
     2. Cria um objeto Usuario
     3. Insere no banco de dados através do DAO
-    4. Redireciona para página de "aguardando aprovação"
+    
     
     Returns:
         Redirect para a rota 'public.aguardando_aprovacao'
