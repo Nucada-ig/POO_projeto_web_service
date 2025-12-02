@@ -73,8 +73,7 @@ def cadastrar_restaurante():
         restaurante_id = restaurante_dao.inserir(restaurante)
     except Exception as e:
         logging.error(f"Failed to insert restaurant: {e}")
-        # If restaurant insertion fails, don't create the user
-        return redirect(url_for('public.aguardando_aprovacao'))  # Or show error, but for now redirect
+        return redirect(url_for('public.aguardando_aprovacao')) 
 
     usuario = Usuario(
         nome=nome_user,
