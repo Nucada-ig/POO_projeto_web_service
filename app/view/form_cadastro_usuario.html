@@ -20,7 +20,7 @@
         </p>
     </div>
     
-    <form class="mt-8 space-y-6" action="{{ url_for('usuario.cadastrar_usuario') }}" method="POST">
+    <form class="mt-8 space-y-6" action="{{ url_for('cadastro.cadastrar_usuario') }}" method="POST">
         
         <div>
             <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo de Cadastro</label>
@@ -68,6 +68,12 @@
             <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
             <input id="password" name="password" type="password" autocomplete="new-password" required
                 class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="Mínimo de 6 caracteres">
+        </div>
+
+        <div>
+            <label for="codigo_unico" class="block text-sm font-medium text-gray-700">Código Único do Restaurante</label>
+            <input id="codigo_unico" name="codigo_unico" type="text" required
+                class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent" placeholder="Código do restaurante">
         </div>
 
         <button type="submit"

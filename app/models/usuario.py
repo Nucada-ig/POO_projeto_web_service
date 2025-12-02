@@ -1,5 +1,6 @@
+import random 
 class Usuario_class:
-    def __init__(self, nome, cpf, email, telefone, username, senha, tipo):
+    def __init__(self, nome, cpf, email, telefone, username, senha, tipo, restaurante_id=random.randint(100000, 999999)):
         self.__nome = nome
         self.__cpf = cpf
         self.__email = email
@@ -7,6 +8,7 @@ class Usuario_class:
         self.__username = username
         self.__senha = senha
         self.__tipo = tipo
+        self.__restaurante_id = restaurante_id
 
     @property
     def nome(self):
@@ -63,3 +65,7 @@ class Usuario_class:
     @tipo.setter
     def tipo(self, tipo):
         self.__tipo = tipo
+    @property
+    def restaurante_id(self):
+        return self.__restaurante_id
+

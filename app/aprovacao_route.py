@@ -1,8 +1,13 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
-from dao.AplicantesDAO import AplicanteDAO
+from flask import Blueprint, request, jsonify, redirect, url_for, render_template
+from .dao.AplicantesDAO import AplicanteDAO
 import sqlite3
 
 aprovacao_bp = Blueprint("aprovacao", __name__)
+
+# Painel de aprovação
+@aprovacao_bp.route("/painel_aprovacao", methods=["GET"])
+def painel_aprovacao():
+    return render_template("aguardando_aprovacao.html")
 
 # Ver aplicantes
 @aprovacao_bp.route("/aplicantes", methods=["GET"])

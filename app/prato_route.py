@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
-from models.Prato import Prato
-from dao.PratoDAO import PratoDAO
+from .models.Prato import Prato
+from .dao.PratoDAO import PratoDAO
 import sqlite3
 
-prato_bp = Blueprint("prato", __name__)
+prato_bp = Blueprint("pratos", __name__)
 
 #prato novo
 @prato_bp.route("/prato/novo", methods=["POST"])
@@ -34,16 +34,15 @@ def ver_prato(id):
     return jsonify(prato), 200
 
 
-# Listar pratos ativos
-#@prato_bp.route("/pratos/ativos", methods=["GET"])
-########## tem que listar todos os pratos, não só os ativos para poderem ser editados depois
-#def pratos_ativos():
-   # conn = sqlite3.connect("pratos.db")
-    #cursor = conn.cursor()
-    #cursor.execute("SELECT * FROM pratos WHERE status = 'ativo'")
-    #pratos = cursor.fetchall()
-    #conn.close()
-    #return jsonify(pratos), 200
+# Listar todos os pratos
+@prato_bp.route("/listar_pratos", methods=["GET"])
+def listar_pratos():
+    conn = sqlite3.connect("pratos.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM pratos")
+    pratos = cursor.fetchall()
+    conn.close()
+    return jsonify(pratos), 200
 
 
 # Alterar status

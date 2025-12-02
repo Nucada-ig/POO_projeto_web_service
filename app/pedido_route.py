@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify, redirect, url_for
-from models.Pedido import Pedido
-from dao.PedidoDAO import PedidoDAO
+from .models.Pedido import Pedido
+from .dao.PedidoDAO import PedidoDAO
 import sqlite3
 
-pedido_bp = Blueprint("pedido", __name__)
+pedido_bp = Blueprint("pedidos", __name__)
 
 # Adicionar pedido
 @pedido_bp.route("/pedido/novo", methods=["POST"])
@@ -41,6 +41,19 @@ def pedidos_ativos():
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM pedidos WHERE status != 'entregue'")
+    pedidos = cursor.fetchall()
+
+    conn.close()
+    return jsonify(pedidos), 200
+
+
+# Listar todos os pedidos
+@pedido_bp.route("/listar_pedidos", methods=["GET"])
+def listar_pedidos():
+    conn = sqlite3.connect("pedidos.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM pedidos")
     pedidos = cursor.fetchall()
 
     conn.close()

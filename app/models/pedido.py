@@ -1,5 +1,5 @@
-from Prato import Prato
-from Endereco import Endereco
+from .Prato import Prato
+from .Endereco import Endereco
 class Pedido:
     def __init__(self, numero, preco, observacao_p, forma_de_pagamento, status):
         self.__numero = numero

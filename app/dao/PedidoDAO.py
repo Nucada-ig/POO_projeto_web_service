@@ -18,14 +18,12 @@ class PedidoDAO:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 cliente_id INTEGER NOT NULL,
                 restaurante_id INTEGER NOT NULL,
-                endereco_id INTEGER NOT NULL,
                 preco_total REAL NOT NULL,
                 forma_pagamento TEXT NOT NULL,
                 status TEXT NOT NULL DEFAULT 'pendente',
                 data TEXT,
                 FOREIGN KEY (cliente_id) REFERENCES usuarios(id),
                 FOREIGN KEY (restaurante_id) REFERENCES restaurantes(id),
-                FOREIGN KEY (endereco_id) REFERENCES enderecos(id)
             );
         """)
         conn.commit()

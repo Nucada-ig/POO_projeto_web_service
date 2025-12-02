@@ -9,6 +9,7 @@ from app.models.Usuario import Usuario_class as Usuario
 from app.models.Entregador import Entregador
 from .dao.UsuarioDAO import UsuarioDAO
 from .dao.EntregadorDAO import EntregadorDAO
+from .dao.RestauranteDAO import RestauranteDAO
 
 # Cria o blueprint para rotas de usuário
 usuario_bp = Blueprint('usuario', __name__)
@@ -62,8 +63,14 @@ def cadastrar_usuario():
     telefone = request.form['telefone']
     username = request.form['username']
     password = request.form['password']
-    tipo = request.form['tipo'] 
-    
+    tipo = request.form['tipo']
+    codigo_restaurante = request.form['codigo_unico']  
+
+    restaurante = RestauranteDAO.procurar_por_codigo(codigo_restaurante)
+    if restaurante is None:
+        # Código do restaurante inválido
+        return render_template('form_cadastro_usuario.html', msg="Código do restaurante inválido. Verifique e tente novamente.")
+
     # Cria o objeto Usuario com os dados recebidos
     # Este objeto deve seguir a estrutura definida na classe Usuario do model
     if tipo == 'entregador':
@@ -74,8 +81,10 @@ def cadastrar_usuario():
             telefone=telefone,
             username=username,
             password=password,
-            status='inativo'  # Status inicial - entregador não está disponível ainda
-        )
+            status='inativo',  # Status inicial - entregador não está disponível ainda
+            restaurante_id = restaurante[0]  # Pega o id do restaurante (primeiro campo da tupla)
+            )
+
         entregador_dao.inserir(entregador)
     else:
         usuario = Usuario(
@@ -85,7 +94,8 @@ def cadastrar_usuario():
             telefone=telefone,
             username=username,
             senha=password,
-            tipo= tipo
+            tipo= tipo,
+            restaurante_id= restaurante[0]  # Pega o id do restaurante (primeiro campo da tupla)
         )
         usuario_dao.inserir(usuario)
     # Insere o usuário no banco de dados
@@ -96,7 +106,3 @@ def cadastrar_usuario():
     # 'public.aguardando_aprovacao' refere-se ao blueprint 'public' e função 'aguardando_aprovacao'
     return redirect(url_for('public.aguardando_aprovacao'))
 
-
-#Para discutir em conjunto:
-#seria interessante colocar a outra parte de usuario junto com essa?
-#ver quais das funções complementares seria interessante adicionar.

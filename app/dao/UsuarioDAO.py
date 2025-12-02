@@ -1,7 +1,7 @@
 import sqlite3
 
 class UsuarioDAO:
-    def __init__(self, db_path='app/database/usuarios.db'):
+    def __init__(self, db_path='app/database/app.db'):
         self.db_path = db_path
         self._criar_tabela()
 
@@ -21,7 +21,9 @@ class UsuarioDAO:
                 telefone TEXT,
                 username TEXT NOT NULL UNIQUE,
                 senha TEXT NOT NULL,
-                tipo TEXT NOT NULL
+                tipo TEXT NOT NULL,
+                restaurante_id INTEGER,
+                FOREIGN KEY (restaurante_id) REFERENCES restaurantes(id)
             );
         """)
         conn.commit()
@@ -31,9 +33,9 @@ class UsuarioDAO:
         conn = self._conectar()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO usuarios (nome, email, telefone, username, senha, tipo)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (usuario.nome, usuario.email, usuario.telefone, usuario.username, usuario.senha, usuario.tipo))
+            INSERT INTO usuarios (nome, email, telefone, username, senha, tipo, restaurante_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (usuario.nome, usuario.email, usuario.telefone, usuario.username, usuario.senha, usuario.tipo, usuario.restaurante_id))
         conn.commit()
         conn.close()
 

@@ -13,9 +13,46 @@
     <style>
         ::-webkit-scrollbar { display: none; }
     </style>
+    <script>
+        function toggleCodigo() {
+            const codigo = document.getElementById('codigo-unico');
+            const button = event.target.closest('button');
+            if (codigo.classList.contains('hidden')) {
+                codigo.classList.remove('hidden');
+                button.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Ocultar';
+            } else {
+                codigo.classList.add('hidden');
+                button.innerHTML = '<i class="fa-solid fa-eye"></i> Mostrar';
+            }
+        }
+
+        function openSettings() {
+            document.getElementById('settings-modal').classList.remove('hidden');
+        }
+
+        function closeSettings() {
+            document.getElementById('settings-modal').classList.add('hidden');
+        }
+
+        function showDeleteConfirm() {
+            document.getElementById('delete-confirm').classList.remove('hidden');
+            document.getElementById('delete-btn').classList.add('hidden');
+        }
+
+        function cancelDelete() {
+            document.getElementById('delete-confirm').classList.add('hidden');
+            document.getElementById('delete-btn').classList.remove('hidden');
+        }
+    </script>
 </head>
 
 <body class="font-inter bg-gray-50">
+
+{% if msg %}
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mx-4 mt-4" role="alert">
+    <span class="block sm:inline">{{ msg }}</span>
+</div>
+{% endif %}
 
 <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
     <div class="px-4 py-3">
@@ -30,9 +67,9 @@
                 </div>
             </div>
 
-            <a href="{{ url_for('dashboard.index') }}" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                <i class="fa-solid fa-arrow-left text-gray-600"></i>
-            </a>
+            <button onclick="openSettings()" class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+                <i class="fa-solid fa-cog text-gray-600"></i>
+            </button>
         </div>
     </div>
 </header>
@@ -114,21 +151,21 @@
 
             <div class="flex items-center p-3 bg-gray-50 rounded-xl">
                 <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-align-left text-yellow-600"></i>
+                    <i class="fa-solid fa-envelope text-yellow-600"></i>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm text-gray-500">Descrição</p>
-                    <p class="text-sm font-medium text-gray-900">{{ restaurante.descricao }}</p>
+                    <p class="text-sm text-gray-500">Email</p>
+                    <p class="text-sm font-medium text-gray-900">{{ restaurante.email }}</p>
                 </div>
             </div>
 
             <div class="flex items-center p-3 bg-gray-50 rounded-xl">
                 <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <i class="fa-solid fa-tags text-blue-600"></i>
+                    <i class="fa-solid fa-phone text-blue-600"></i>
                 </div>
                 <div class="ml-3">
-                    <p class="text-sm text-gray-500">Categoria</p>
-                    <p class="text-sm font-medium text-gray-900">{{ restaurante.categoria }}</p>
+                    <p class="text-sm text-gray-500">Telefone</p>
+                    <p class="text-sm font-medium text-gray-900">{{ restaurante.telefone }}</p>
                 </div>
             </div>
 
@@ -140,6 +177,21 @@
                     <p class="text-sm text-gray-500">CNPJ</p>
                     <p class="text-sm font-medium text-gray-900">{{ restaurante.cnpj }}</p>
                 </div>
+            </div>
+
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-key text-purple-600"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-gray-500">Código Único</p>
+                        <p id="codigo-unico" class="text-sm font-medium text-gray-900 hidden">{{ restaurante.codigo_unico }}</p>
+                    </div>
+                </div>
+                <button onclick="toggleCodigo()" class="px-3 py-1 bg-purple-500 text-white text-xs rounded-lg">
+                    <i class="fa-solid fa-eye"></i> Mostrar
+                </button>
             </div>
 
         </div>
@@ -155,7 +207,7 @@
 <nav class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 py-2 px-6">
     <div class="flex justify-between items-center text-gray-600">
 
-        <a href="{{ url_for('perfil.perfil_usuario') }}" class="flex flex-col items-center">
+        <a href="{{ url_for('perfil.perfil_usuario', id_usuario=usuario.id) }}" class="flex flex-col items-center">
             <i class="fa-solid fa-user text-xl"></i>
             <span class="text-xs">Perfil</span>
         </a>
@@ -182,6 +234,62 @@
 
     </div>
 </nav>
+
+<!-- MODAL DE CONFIGURAÇÕES -->
+<div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm mx-auto overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-xl font-bold">Configurações</h3>
+                    <p class="text-blue-100 text-sm">Gerencie sua conta</p>
+                </div>
+                <button onclick="closeSettings()" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-all">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6 space-y-4">
+            <!-- Logout Button -->
+            <a href="{{ url_for('public.logout') }}" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 px-6 rounded-2xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center gap-3 shadow-lg">
+                <i class="fa-solid fa-sign-out-alt text-lg"></i>
+                <span>Fazer Logout</span>
+            </a>
+
+            <!-- Delete Account Section -->
+            <div class="border-t border-gray-200 pt-4">
+                <h4 class="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-exclamation-triangle text-red-500"></i>
+                    Zona de Perigo
+                </h4>
+
+                <button onclick="showDeleteConfirm()" id="delete-btn" class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-4 px-6 rounded-2xl font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-200 flex items-center justify-center gap-3 shadow-lg">
+                    <i class="fa-solid fa-trash text-lg"></i>
+                    <span>Deletar Conta</span>
+                </button>
+
+                <!-- Password Confirmation (hidden initially) -->
+                <div id="delete-confirm" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-2xl">
+                    <p class="text-red-800 text-sm mb-3 font-medium">Digite sua senha para confirmar:</p>
+                    <form id="delete-form" action="{{ url_for('perfil.deletar_conta', id_usuario=usuario.id) }}" method="POST">
+                        <input type="password" name="senha" required class="w-full px-4 py-3 bg-white border border-red-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 mb-3" placeholder="Sua senha">
+                        <div class="flex gap-2">
+                            <button type="button" onclick="cancelDelete()" class="flex-1 bg-gray-500 text-white py-2 px-4 rounded-xl font-medium hover:bg-gray-600 transition-colors">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="flex-1 bg-red-600 text-white py-2 px-4 rounded-xl font-medium hover:bg-red-700 transition-colors">
+                                Confirmar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

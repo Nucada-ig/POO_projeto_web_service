@@ -57,20 +57,8 @@ def cadastrar_restaurante():
     endereco = request.form['endereco']
     telefone_restaurante = request.form['telefone_restaurante'] # Variável ajustada
     email_restaurante = request.form['email_restaurante']
-    
-    # 2. Insere o USUÁRIO (Responsável pelo Restaurante)
-    usuario = Usuario(
-        nome=nome_user,
-        cpf=cpf_user,
-        email=email_user,
-        telefone=telefone_user,
-        username=username_user,
-        password=password_user,
-        tipo='restaurante' 
-    )
-    usuario_dao.inserir(usuario)
-    
-    # 3. Insere o RESTAURANTE
+    codigo_unico = request.form.get('codigo_unico')  # Opcional
+
     restaurante = Restaurante(
         nome=nome_restaurante,
         endereco=endereco,
@@ -78,10 +66,21 @@ def cadastrar_restaurante():
         CNPJ=cnpj,
         email=email_restaurante,
         nome_responsavel=nome_user, # Usa o nome do responsável recém-cadastrado
+        codigo_unico=codigo_unico if codigo_unico else None
     )
     restaurante_dao.inserir(restaurante)
-    
-    # 4. Redireciona para a página de aguardando aprovação
+    restaurante_id = restaurante_dao.procurar_por_nome(nome_restaurante)[0][0] # Pega o ID do restaurante recém-inserido
+    usuario = Usuario(
+        nome=nome_user,
+        cpf=cpf_user,
+        email=email_user,
+        telefone=telefone_user,
+        username=username_user,
+        senha=password_user,
+        tipo='restaurante', 
+        restaurante_id= restaurante_id
+    )
+    usuario_dao.inserir(usuario)
     return redirect(url_for('public.aguardando_aprovacao'))
 
 

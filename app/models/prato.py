@@ -1,15 +1,10 @@
 class Prato:
-  seq = 0
-  def __init__(self, nome, descricao_prato, valor_prato, tipo_prato, status_prato="ativo", id_prato = None):
-    self.__id_prato = id_prato
+  def __init__(self, nome, descricao_prato, valor_prato, tipo_prato, status_prato="ativo"):
     self.__descricao_prato = descricao_prato
     self.__valor_prato = valor_prato
     self.__tipo_prato = tipo_prato
     self.__status_prato = status_prato
     self.__nome = nome
-
-    self.__class__.seq += 1
-    self.__id_prato = self.__class__.seq
 
   @property
   def id_prato(self):
@@ -21,13 +16,6 @@ class Prato:
   @nome.setter
   def nome(self, novo_nome):
     self.__nome = novo_nome
-
-  @property
-  def id_prato(self):
-    return self.__id_prato
-  @id_prato.setter
-  def id_prato(self, novo_id):
-    raise ValueError("Não é possível alterar o ID de um prato")
 
   @property
   def descricao_prato(self):

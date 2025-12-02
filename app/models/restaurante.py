@@ -1,12 +1,15 @@
+import random
 class Restaurante:
-    def __init__(self, nome, endereco, telefone, CNPJ, email):
+    def __init__(self, nome, endereco, telefone, CNPJ, email, nome_responsavel, codigo_unico=None):
+        if codigo_unico is None:
+            codigo_unico = random.randint(100000, 999999)
         self.__nome = nome
         self.__endereco = endereco
         self.__telefone = telefone
         self.__CNPJ = CNPJ
         self.__email = email
-        self.__cardapio = []
-        self.__usuarios = []
+        self.__codigo_unico = codigo_unico
+        self.__nome_responsavel = nome_responsavel
 
     @property
     def nome(self):
@@ -47,3 +50,18 @@ class Restaurante:
     @email.setter
     def email(self, email):
         self.__email = email
+    
+    @property
+    def nome_responsavel(self):
+        return self.__nome_responsavel
+
+    @nome_responsavel.setter
+    def nome_responsavel(self, nome_responsavel):
+        self.__nome_responsavel = nome_responsavel
+    
+    @property
+    def codigo_unico(self):
+        return self.__codigo_unico
+    @codigo_unico.setter
+    def codigo_unico(self):
+        self.__codigo_unico = random.randint(100000, 999999)

@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 import sqlite3
 
-entregador_bp = Blueprint("entregador", __name__)
+entregador_bp = Blueprint("entregadores", __name__)
 
 # Buscar entregador específico
 @entregador_bp.route("/entregador/<int:id>", methods=["GET"])

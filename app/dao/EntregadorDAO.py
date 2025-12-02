@@ -1,7 +1,7 @@
 import sqlite3
 
 class EntregadorDAO:
-    def __init__(self, db_path='app/database/entregadores.db'):
+    def __init__(self, db_path='app/database/app.db'):
         self.db_path = db_path
         self._criar_tabela()
 
@@ -20,7 +20,9 @@ class EntregadorDAO:
                 veiculo TEXT NOT NULL,
                 placa TEXT,
                 status TEXT DEFAULT 'ativo',
+                restaurante_id INTEGER NOT NULL,
                 FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+                FOREIGN KEY (restaurante_id) REFERENCES restaurantes(id)
             );
         """)
         conn.commit()
@@ -30,9 +32,9 @@ class EntregadorDAO:
         conn = self._conectar()
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO entregadores (usuario_id, veiculo, placa, status)
-            VALUES (?, ?, ?, ?)
-        """, (entregador.usuario_id, entregador.veiculo, entregador.placa, entregador.status))
+            INSERT INTO entregadores (usuario_id, veiculo, placa, status, restaurante_id)
+            VALUES (?, ?, ?, ?, ?)
+        """, (entregador.usuario_id, entregador.veiculo, entregador.placa, entregador.status, entregador.restaurante_id))
         conn.commit()
         conn.close()
 
